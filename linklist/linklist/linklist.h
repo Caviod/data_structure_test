@@ -39,7 +39,7 @@ linklist list_create_all()
 
 	while (1)
 	{
-		printf("input aa number(-1 exit):");
+		printf("input a number(-1 exit):");
 		scanf_s("%d", &value);
 		if (value == -1)
 		{
@@ -84,6 +84,75 @@ int list_head_insert(linklist H, datatype value)
 	p->data = value;
 	p->next = H->next;
 	H->next = p;
+	return 0;
+}
+
+//序号查找(查找第几个节点)
+linklist list_get(linklist H, int position)
+{
+	linklist p = H;
+	int i = 0;
+	if (position < 0)
+	{
+		printf("position is invalid\n");
+		return NULL;
+	}
+	while (p->next && i < position)
+	{
+		p = p->next;
+		i++;
+	}
+	if (i == position)
+	{
+		return p;
+	}
+	else 
+	{
+		printf("position is invalid\n");
+		return NULL;
+	}
+}
+
+//根据数据查找节点地址
+linklist list_location(linklist H, datatype value)
+{
+	linklist p = H->next;
+	while (p && p->data != value)
+	{
+		p = p->next;
+	}
+	return p;
+}
+
+//插入数据
+int list_insert(linklist H, int position, datatype value)
+{
+	linklist p, q;
+	if (position == 0)
+	{
+		p = H;
+	}
+	else
+	{
+		p = list_get(H, position - 1);
+	}
+
+	if (p == NULL)
+	{
+		printf("para is invalid\n");
+		return -1;
+	}
+	else
+	{
+		if ((q = (linklist)malloc(sizeof(listnode))) == NULL)
+		{
+			printf("malloc failed\n");
+			return -1;
+		}
+		q->data = value;
+		q->next = p->next;
+		p->next = q;
+	}
 	return 0;
 }
 
